@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tỏ Tình</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFC0CB, #FFFFFF);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .hidden {
+            display: none;
+        }
+        .highlight {
+            font-weight: bold;
+        }
+        #message {
+            font-size: 24px;
+            font-weight: bold;
+            animation: colorWave 5s infinite linear;
+            background-image: linear-gradient(90deg, white, pink, red, orange);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        @keyframes colorWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: float 5s linear forwards;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-500px) scale(1.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="nameInput">
+        <h2>Nhập tên của bạn:</h2>
+        <input type="text" id="name" placeholder="Tên của bạn">
+        <select id="gender">
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+        </select>
+        <button onclick="showConfession()">Gửi</button>
+    </div>
+    <div class="container hidden" id="confession">
+        <h2 id="message"></h2>
+    </div>
+    <script>
+        const confessions = {
+            male: [
+                "Em à, anh thích em rất nhiều!",
+                "Anh không thể ngừng nghĩ về em!",
+                "Anh yêu em từ ánh nhìn đầu tiên!",
+              "gọi anh là tôm vì trong đầu anh chỉ có em!",
+              "em muốn lên ban thờ ngồi cùng anh không!"
+            ],
+            female: [
+                "Anh ơi, em thương anh thật nhiều!",
+                "Em luôn nghĩ về anh mỗi ngày!",
+                "Anh là người đặc biệt nhất trong lòng em!",
+              "thấy anh là em muốn rụng trứng!",
+              "amh có muốn lên ban thờ ngồi cùng em không!"
+            ]
+        };
+        function showConfession() {
+            let name = document.getElementById("name").value;
+            let gender = document.getElementById("gender").value;
+            if (name.trim() === "") {
+                alert("Vui lòng nhập tên!");
+                return;
+            }
+            let message = confessions[gender][Math.floor(Math.random() * confessions[gender].length)];
+            document.getElementById("message").innerHTML = message;
+            document.getElementById("nameInput").classList.add("hidden");
+            document.getElementById("confession").classList.remove("hidden");
+            createHearts();
+        }
+        function createHearts() {
+            const colors = ["❤️", "💖", "💛", "💜", "💚", "💙", "❤️‍🔥"];
+            for (let i = 0; i < 40; i++) {
+                let heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.top = "100vh";
+                heart.style.animationDuration = (Math.random() * 3 + 3) + "s"; // Tăng thời gian bay để trái tim trôi chậm hơn
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 5000);
+            }
+        }
+    </script>
+</body>
+</html>
